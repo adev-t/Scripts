@@ -1,0 +1,23 @@
+#! /usr/bin/env sh
+
+# use> extn <extension> <source-directory>
+
+ext="$1"
+dir_path="$2"
+
+if [ -z $ext ]; then
+    echo "no extension given";
+    exit 1;
+fi
+
+if [ -z $dir_path ]; then
+    dir_path="$(pwd)"
+    echo "no directory path given, assuming current directory";
+fi
+
+for file in "$dir_path"/*; do
+    if [ -f "$file" ]; then
+        sudo mv $file "$file$ext"
+    fi
+done
+

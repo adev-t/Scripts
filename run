@@ -1,0 +1,64 @@
+#! /usr/bin/env sh
+
+
+# use> run <file_name>
+
+
+given_file=$1
+
+# check if a file is given as parameter to compile
+if [ -z $given_file ]
+then
+    echo "No input file given";
+    exit 1;
+
+elif [[ $given_file != *.* ]]
+then
+    echo "file had no extension, probably an unrecognized file.";
+    exit 1;
+fi
+
+
+# compile the given file in its respective language
+touch /tmp/compile.tmpfile
+flag=0
+
+#---
+case "$given_file" in
+    *.rs)
+        echo "Rust source file identified"
+        rustc $given_file -o /tmp/compile.tmpfile
+        flag=1
+        ;;
+    *.c)
+        echo "C source file identified"
+        clang $given_file -o /tmp/compile.tmpfile
+        flag=1
+        ;;
+    *.cpp)
+        echo "Cpp source file identified"
+        clang++ $given_file -o /tmp/compile.tmpfile
+        flag=1
+        ;;
+    *.py)
+        echo "Python source file identified"
+        python3 $given_file
+        exit 1
+        ;;
+    *.js)
+        echo "JavaScript source file identified"
+        node $given_file
+        exit 1
+        ;;
+    *)
+        echo "unknown source file, program panicked"
+        exit 1
+        ;;
+esac
+
+if [ $flag == 1 ]
+then
+    /tmp/compile.tmpfile
+fi
+
+rm /tmp/compile.tmpfile

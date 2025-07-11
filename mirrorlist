@@ -1,0 +1,4 @@
+#! /usr/bin/env sh
+sudo pacman -S reflector
+reflector | sudo tee /etc/pacman.d/mirrorlist
+sudo pacman -R reflector 
